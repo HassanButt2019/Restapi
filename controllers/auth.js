@@ -46,7 +46,6 @@ exports.login = async (req, response, next) => {
   const { email, password } = req.body;
 
   //validate email and password
-  print(password);
   if (!email || !password) {
     return response
       .status(400)
