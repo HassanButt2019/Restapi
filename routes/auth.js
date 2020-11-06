@@ -7,6 +7,12 @@ const {register , login , getMe , forgetpassword , resetPassword} = require('../
 const router = express.Router();
 
 
+router.get('/hell',(req,res)=>{
+res.send("HELLO WORLLD");
+});
+
+
+
 router.post('/register',register);
 
 router.post('/login',login);

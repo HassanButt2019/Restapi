@@ -6,12 +6,9 @@ const connectDb = require('./config/database');
 const morgan = require('morgan');
 const passport = require('passport');
 const bodyparser = require('body-parser');
-
-const cookieParser = require('cookie-parser'); 
-
+const cookieParser = require('cookie-parser');
 
 //connect Database
-
 connectDb();
 
 
@@ -21,23 +18,8 @@ dotenv.config({path:'./config/config.env'})
 
 //routes files
 const money_pool = require('./routes/money_pool');
-
 const auth = require('./routes/auth');
-
-
-
-
-
 const app = express();
-
-
-app.use(cors());
-//body parser
-app.use(express.json());
-
-//cookie parser
-app.use(cookieParser());
-
 //dev logging middleware
 if(process.env.NODE_ENV === 'development')
 {
@@ -45,9 +27,21 @@ app.use(morgan('dev'));
 }
 
 //mount routers
-
+app.use(cors());
+//body parser
+app.use(express.json());
+// app.use(bodyparser.urlencoded({extended:false}));
+app.use(bodyparser.json());
+//cookie parser
+app.use(cookieParser());
 app.use('/api/v1/money_pool',money_pool);
 app.use('/api/v1/auth',auth);
+app.use(passport.initialize())
+app.use(function(req, res, next) {
+    res.setHeader("Content-Type", "application/json");
+    next();
+});
+require('./config/passport')(passport);
 
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT,console.log(`Server is running in ${process.env.NODE_ENV} mode on ${PORT}`));

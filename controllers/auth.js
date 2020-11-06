@@ -1,6 +1,11 @@
 const crypto = require("crypto");
 const User = require("../models/user");
 const sendEmail = require("../utils/sendemail");
+const jwt = require('jwt-simple');
+
+
+
+
 
 
 //@desc register user
@@ -11,31 +16,28 @@ exports.register = async (req, response, next) => {
   const { name, email, password, role } = req.body;
   var user;
 
-  if(!(req.body.email) || !(req.body.password)){
-    return res.json({success:false , msg:'Enter All Fields'});
+  if((!req.body.email) || (!req.body.password)){
+    return response.json({success:false , msg:'Enter All Fields'});
   }else 
   {
   //create user
-  user = await User.create({
-    name,
-    email,
-    password,
-    role,
+  user = User({
+       name,
+      email,
+      password,
+      role,
+
   });
-
+  user.save(function(err,user){
+if(err){
+response.json({success:false , msg:'Failed To Save'});
+}else
+{
+response.json({success:true , msg:'Save successfully'});
+}
+  })
    }
-//sendTokenResponse(user, 200, response);
-  if(!user){
-    return response.json({success:false , msg:'Failed To Save'});
-  }else
-  {
-    return response.json({success:true , msg:'Successfully Saved'});
-  }
- 
-  // //create token
-  // const token = user.getSignedJwtToken();
 
-  // response.status(200).json({success:true , token});
 };
 
 //@desc login user
@@ -46,30 +48,34 @@ exports.login = async (req, response, next) => {
   const { email, password } = req.body;
 
   //validate email and password
+
+  console.log(email , password);
   if (!email || !password) {
     return response
       .status(400)
       .json({ success: false, msg: "Provide valid email and password" });
   }
 
-  //check for user
+  // Check for user
+  const user = await User.findOne({ email }).select('+password');
 
-  const user = await User.findOne({ email }).select("+password");
+
   if (!user) {
     return response
       .status(401)
       .json({ success: false, msg: "Authentication Failed , User Not Found" });
   }
-  //check for password9
+  //check for password
   const isMatch = await user.matchPassword(password);
-  sendTokenResponse(user, 200, response);
+
   if (!isMatch) {
     return response
       .status(401)
       .json({ success: false, msg: "Invalid Credentials" });
   }
-  
-  return next();
+  sendTokenResponse(user, 200, response);
+
+  //return next();
   // //create token
   // const token = user.getSignedJwtToken();
   // response.status(200).json({success:true , token});
@@ -118,7 +124,7 @@ exports.forgetpassword = async (req, res, next) => {
 
   if (!user) {
     return res.status(404).json({
-      success: true,
+      success:false,
       msg: "There is no such user",
     });
    // next();
@@ -143,7 +149,7 @@ exports.forgetpassword = async (req, res, next) => {
       message,
     });
 
-    return res.status(200).json({ success: true, msg: "Email sent" });
+    return res.status(200).json({ success: true, token:resetToken });
   } catch (err) {
     user.resetPasswordToken = undefined;
     user.resetPasswordDate = undefined;
