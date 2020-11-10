@@ -17,27 +17,22 @@ router.route('/')
 .get(getMoney)
 .post(protect,createMoney);
 
-router.route('/:id/money')
-.put(protect,updateMoney);
+router.route('/currentmoney')
+.put(/*protect,*/updateMoney);
 
 
 
-router.route('/money/earn')
+router.route('/earnmoney')
 .get(getEarnedMoney);
-router.route('/:id/earn')
-.put(protect,updateEarnedMoney);
+router.route('/earnmoney')
+.put(/*protect,*/updateEarnedMoney);
 
 
-router.route('/money/spend')
+router.route('/spendmoney')
 .get(getSpentMoney);
-router.route('/:id/spend')
-.put(protect,updateSpendMoney);
+router.route('/spendmoney')
+.put(/*protect,*/updateSpendMoney);
 
-
-router.route('/money/loan')
-.get(getLoanMoney);
-router.route('/:id/loan')
-.put(protect,updateLoanMoney);
 
 
 router.route('/contributors')
@@ -45,7 +40,7 @@ router.route('/contributors')
 .post(protect,createContributers);
 
 
-router.route('/:id/contributors').
+router.route('/contributors').
 put(protect,updateContributers);
 
 

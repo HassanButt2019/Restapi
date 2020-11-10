@@ -13,29 +13,33 @@ const jwt = require('jwt-simple');
 //@access public
 
 exports.register = async (req, response, next) => {
-  const { name, email, password, role } = req.body;
+  const { name, phoneNumber,building,flat,cnic,email,password, role } = req.body;
   var user;
 
+  console.log(name);
   if((!req.body.email) || (!req.body.password)){
-    return response.json({success:false , msg:'Enter All Fields'});
+    return response.json({success:false , msg:'Enter Email And Password'});
   }else 
   {
   //create user
   user = User({
        name,
+       phoneNumber,
+       building,
+       flat,
+       cnic,
       email,
       password,
       role,
-
   });
   user.save(function(err,user){
 if(err){
-response.json({success:false , msg:'Failed To Save'});
+response.json({success:false , msg:err});
 }else
 {
 response.json({success:true , msg:'Save successfully'});
 }
-  })
+  });
    }
 
 };
@@ -50,23 +54,29 @@ exports.login = async (req, response, next) => {
   //validate email and password
 
   console.log(email , password);
+
   if (!email || !password) {
     return response
       .status(400)
       .json({ success: false, msg: "Provide valid email and password" });
   }
 
+  
+
   // Check for user
   const user = await User.findOne({ email }).select('+password');
 
-
+  
   if (!user) {
     return response
       .status(401)
       .json({ success: false, msg: "Authentication Failed , User Not Found" });
   }
+
+  
   //check for password
   const isMatch = await user.matchPassword(password);
+  console.log(isMatch);
 
   if (!isMatch) {
     return response
@@ -75,7 +85,7 @@ exports.login = async (req, response, next) => {
   }
   sendTokenResponse(user, 200, response);
 
-  //return next();
+  // return next();
   // //create token
   // const token = user.getSignedJwtToken();
   // response.status(200).json({success:true , token});
@@ -108,6 +118,7 @@ const sendTokenResponse = (user, statusCode, response) => {
 //@route post /api/vi/auth/me
 //@access private
 exports.getMe = async (req, res, next) => {
+  console.log(req);
   const user = await User.findById(req.user.id);
 
   res.status(200).json({

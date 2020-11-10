@@ -1,27 +1,26 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const moneypoolScheme = new mongoose.Schema({
-currentMoney: {
-type:String,
-},
-contributors:[{
-name:{
-type:String,
-},
-contributedMoney:{
-type:String,
-},
-},],
-earnedMoney: {
-type:String,
-},
-spendMoney: {
-type:String,
-},
-loanMoney: {
-type:String,
-},
-
+  currentMoney: {
+    type: Number,
+    required:true
+  },
+  contributors: [
+    {
+      name: {
+        type: String,
+      },
+      contributedMoney: {
+        type: Number,
+      },
+    },
+  ],
+  earnedMoney: {
+    type: Number,
+  },
+  spendMoney: {
+    type: Number
+  },
 });
 
-module.exports = mongoose.model('moneypool',moneypoolScheme);
+module.exports = mongoose.model("moneypool", moneypoolScheme);

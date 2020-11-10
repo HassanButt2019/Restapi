@@ -19,6 +19,7 @@ dotenv.config({path:'./config/config.env'})
 //routes files
 const money_pool = require('./routes/money_pool');
 const auth = require('./routes/auth');
+const complains = require('./routes/complains');
 const app = express();
 //dev logging middleware
 if(process.env.NODE_ENV === 'development')
@@ -34,8 +35,9 @@ app.use(express.json());
 app.use(bodyparser.json());
 //cookie parser
 app.use(cookieParser());
-app.use('/api/v1/money_pool',money_pool);
+app.use('/api/v1/moneypool',money_pool);
 app.use('/api/v1/auth',auth);
+app.use('/api/v1/complains',complains);
 app.use(passport.initialize())
 app.use(function(req, res, next) {
     res.setHeader("Content-Type", "application/json");

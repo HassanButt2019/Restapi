@@ -6,16 +6,34 @@ const crypto = require('crypto');
 const UserSchema = new mongoose.Schema({
     name:{
         type:String,
-        // required:[true,'Please add a name']
+    },
+    phoneNumber:{
+        type:String,
+    },
+    building:{
+        type:String,
+    },
+    flat:{
+        type:Number,
+    },
+    cnic:{
+        type:Number,
+        unique:true
     },
     email:{
         type:String,
         required:[true,'Please add an email'],
         unique:true,
     },
+    workerTime:{
+        type:String,
+    },
+    Salary:{
+        type:Number,
+    },
     role:{
         type:String,
-        enum:['head','resident','guard'],
+        enum:['head','resident','worker'],
         default:'head'
     },
     password:{
@@ -31,9 +49,6 @@ const UserSchema = new mongoose.Schema({
         default:Date.now
     }
 });
-
-
-  
 
 //encrypt password using bcrypt
 UserSchema.pre('save',async function(next){
@@ -74,7 +89,6 @@ UserSchema.methods.getResetPasswordToken = function(){
 };
 
 //match user password to hashpassword
-
 UserSchema.methods.matchPassword = async function(password){
     return await bcrypt.compare(password , this.password);
 }
