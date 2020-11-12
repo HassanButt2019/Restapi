@@ -8,7 +8,7 @@ const jwt = require('jwt-simple');
 
 
 
-//@desc register user
+//@desc register head/resident
 //@route get /api/vi/auth/register
 //@access public
 
@@ -41,30 +41,75 @@ response.json({success:true , msg:'Save successfully'});
 }
   });
    }
-
 };
+
+//@desc register worker
+//@route get /api/vi/auth/registerworker
+//@access public
+
+exports.registerWorker = async (req, response, next) => {
+  const { name, phoneNumber,address,type,cnic,timing,salary,email,password, role} = req.body;
+  var user;
+
+  console.log(name);
+  if((!req.body.email) || (!req.body.password)){
+    return response.json({success:false , msg:'Enter Email And Password'});
+  }else 
+  {
+  //create user
+  user = User({
+       name,
+       phoneNumber,
+       address,
+       type,
+       timing,
+       salary,
+       cnic,
+      email,
+     password,
+     role,
+  });
+  user.save(function(err,user){
+if(err){
+response.json({success:false , msg:err});
+}else
+{
+response.json({success:true , msg:'Save successfully'});
+}
+  });
+   }
+};
+
+
 
 //@desc login user
 //@route post /api/vi/auth/login
 //@access public
 
 exports.login = async (req, response, next) => {
-  const { email, password } = req.body;
+  const { email, password , role } = req.body;
 
   //validate email and password
 
-  console.log(email , password);
+  console.log(email , password , role);
 
-  if (!email || !password) {
+  if (!email || !password ) {
     return response
       .status(400)
       .json({ success: false, msg: "Provide valid email and password" });
   }
 
-  
-
-  // Check for user
-  const user = await User.findOne({ email }).select('+password');
+  var user;
+//check for head
+if(role === 'head')
+{ // Check for user
+   user = await User.findOne({ email}).select('+password');
+}else
+{
+  return response
+      .status(401)
+      .json({ success: false, msg: "Authentication Failed , You Are Not Head" });
+}
 
   
   if (!user) {
@@ -77,6 +122,16 @@ exports.login = async (req, response, next) => {
   //check for password
   const isMatch = await user.matchPassword(password);
   console.log(isMatch);
+
+  const isHead = await user.CheckHead(role);
+  console.log(isHead);
+
+  if(!isHead)
+  {
+    return response
+    .status(401)
+    .json({ success: false, msg: "Authentication Failed , You Are Not Head" });
+  }
 
   if (!isMatch) {
     return response

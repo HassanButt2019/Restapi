@@ -17,8 +17,15 @@ const UserSchema = new mongoose.Schema({
         type:Number,
     },
     cnic:{
-        type:Number,
+        type:String,
         unique:true
+    },
+    address:{
+       type:String
+    },
+    type:{
+        type:String,
+        enum:['guard','sweeper',],
     },
     email:{
         type:String,
@@ -92,6 +99,18 @@ UserSchema.methods.getResetPasswordToken = function(){
 UserSchema.methods.matchPassword = async function(password){
     return await bcrypt.compare(password , this.password);
 }
+//match user role 
+UserSchema.methods.CheckHead= async function(role){
+    if(role === this.role)
+    {
+        return await true;
+    }else
+    {
+        return await false;
+    }
+}
+
+
 
 
 module.exports = mongoose.model('User',UserSchema);
