@@ -29,7 +29,7 @@ exports.getBuildings = async(req , resp , next)=>{
 
   var building = "abx";
 
-  
+
   console.log(building);
   var buildings = await User.find({"role":["resident","head"]} , {building});
 
