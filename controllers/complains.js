@@ -14,7 +14,7 @@ exports.getComplain = async(req,response,next) => {
     {
         response.status(400).json({ success: false  , msg:err});
     }
-}
+};
 //@desc create complain
 //@route post / api/vi/complains
 //@access private
@@ -29,7 +29,7 @@ exports.createComplain = async (req,response , next)=>{
         response.status(400).json({ success: false, msg: "data not found" });
     }
     // response.status(200).json({ success: true, msg: "created complain" });
-}
+};
 
 //@desc update status
 //@route post / api/vi/complains/status
@@ -49,11 +49,19 @@ exports.updateStatus = async (req,response , next)=>{
         response.status(400).json({ success: false, msg: "data not found" });
     }
     // response.status(200).json({ success: true, msg: "created complain" });
-}
+};
 
 
 //@desc delete complain
 //@route delete /api/vi/complains/:id
 exports.deleteComplain = async (req,response , next)=>{
-    response.status(200).json({ success: true, msg: "delete complain" });
-}
+    const complain = await complains.findById(req.params.id );//we dont need to sent anything so dont need req.body
+
+    if(!complain){
+        response.status(400).json({ success: false, msg: `Complain not found with id ${req.params.id}` });
+    }
+
+    complain.remove();
+   response.status(200).json({success: true, msg: "complain deleted"});
+
+};
