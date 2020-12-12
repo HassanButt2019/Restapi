@@ -112,10 +112,11 @@ exports.updateEarnedMoney = async (req, response, next) => {
 exports.updateSpendMoney = async (req, response, next) => {
   try {
     const money = await money_pool.findOneAndUpdate(req.body);
-    response.status(200).json({ success: true, msg: "Updated Spend Money" });
+    
     if (!money) {
       response.status(400).json({ success: false });
     }
+    response.status(200).json({ success: true, msg: "Updated Spend Money" });
   } catch (err) {
     response.status(400).json({ success: false, msg: "property not found" });
   }
@@ -126,21 +127,48 @@ exports.updateSpendMoney = async (req, response, next) => {
 //@route GET /apiv1/moneypool/earnmoney
 //@access private
 //ok
-exports.getEarnedMoney = (req, response, next) => {
-  response.status(200).json({ success: true, msg: "Show earned money" });
+exports.getEarnedMoney = async (req, response, next) => {
+  
+  try {
+    const money = await money_pool.find({}, {  _id:0 , earnedMoney: 1 } );
+  if (!money) {
+    response.status(400).json({ success: false });
+  }
+  response.status(200).json({ success: true, data: money[0] });
+    
+  } catch (err) {
+    response.status(400).json({ success: false });
+  }
+  
 };
+
+
 //@desc get spennd money
 //@route GET /apiv1/moneypool/spendmoney
 //@access private
 //ok
-exports.getSpentMoney = (req, response, next) => {
-  response.status(200).json({ success: true, msg: "Show Spent money" });
+exports.getSpentMoney = async (req, response, next) => {
+    
+  try {
+    const money = await money_pool.find({}, {  _id:0 , spendMoney: 1 } );
+  if (!money) {
+    response.status(400).json({ success: false });
+  }
+  response.status(200).json({ success: true, data: money[0] });
+    
+  } catch (err) {
+    response.status(400).json({ success: false });
+  }
+ 
 };
 
+
+/*
 //@desc get loan money
 //@route GET /apiv1/money_poo/loan
 //@access private
 //ok
-exports.getLoanMoney = (req, response, next) => {
-  response.status(200).json({ success: true, msg: "Show loan money" });
-};
+exports.getLoanMoney = async (req, response, next) => {
+ // const money = await money_pool.find({}, {  _id:0 , loan: 1 } );
+  response.status(200).json({ success: true, data: money[0] });
+};*/
