@@ -1,13 +1,21 @@
 const express = require('express');
-const {getByBuilding , getBuildings} = require('../controllers/residents');
+const {getByBuilding , getBuildings, deleteBuilding, deleteBuildingByBlock, updateResidentDetail, deleteResident,createBuilding} = require('../controllers/residents');
 const router = express.Router();
 
 
+router.route('/building')
+      .post(getByBuilding)
+      .delete(deleteBuildingByBlock);
 
-router.post('/building',getByBuilding);
+router.delete('/building/:id',deleteBuilding);
 
+router.route('/:id')
+      .put(updateResidentDetail)
+      .delete(deleteResident)
 
-router.get('/buildings',getBuildings);
+router.route('/buildings')
+      .get(getBuildings)
+      .post(createBuilding);
 
 
 module.exports = router;
