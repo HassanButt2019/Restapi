@@ -1,16 +1,22 @@
 const mongoose = require("mongoose");
 
 const workerStatusSchema = new mongoose.Schema({
-  checkin: Date,
-  checkout: Date,
+  checkin: {
+    type:String
+  },
+  checkout:{
+    type:String
+  },
   hoursWorked:{
-    type:Number,
+    type:String,
   },
   workerId:{
     type:String,
   },
   day: {type: String, enum:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]},
-  date: Date
+  date: {
+    type:String
+  }
 },{ collection : 'workerstatus' });
 
 module.exports = mongoose.model("workerstatus", workerStatusSchema);
