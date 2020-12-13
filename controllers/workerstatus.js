@@ -28,14 +28,14 @@ exports.getworkerStatus = async(req , resp , next)=>{
 //@route post /api/v1/workerstatus/hours
 exports.updateWorkerHours = async(req , resp , next)=>{
   
-  var obj = JSON.parse(JSON.stringify(req.body))
+  var obj = JSON.parse(JSON.stringify(req.body));
   console.log(obj.hoursWorked);
-  
+  console.log(obj.workerId);
   const hours = await Status.updateOne(
     { "workerId" : obj.workerId },
     { $set: { "hoursWorked" :obj.hoursWorked } }
  );
-console.log(hours);
+//console.log(hours);
  if(!hours){
      return resp
    .status(401)
@@ -80,12 +80,12 @@ resp
 }
 
 
-//2016-05-18T16:00:00Z
+
  //@desc update worker date
 //@route post /api/v1/workerstatus/date
 exports.updateWorkerDate = async(req , resp , next)=>{
 
-  var obj = JSON.parse(JSON.stringify(req.body))
+  var obj = JSON.parse(JSON.stringify(req.body));
   console.log(obj.date);
   
   const date = await Status.updateOne(
@@ -94,6 +94,59 @@ exports.updateWorkerDate = async(req , resp , next)=>{
  );
   
  if(!date){
+     return resp
+   .status(401)
+   .json({ success: false, msg:"error"});
+ }
+
+
+resp
+ .status(200)
+ .json({ success: true, msg:"Successfully updated" });
+}
+
+
+
+
+//@desc updateCheckinStatus time
+//@route post /api/v1/workerstatus/checkin
+exports.updateCheckinStatus = async(req , resp , next)=>{
+
+  var obj = JSON.parse(JSON.stringify(req.body));
+  console.log(obj.checkin, "=----");
+  const checkin = await Status.updateOne(
+    { "workerId" : obj.workerId },
+    { $set: { "checkin" :obj.checkin } }
+ );
+  
+ if(!checkin){
+     return resp
+   .status(401)
+   .json({ success: false, msg:"error"});
+ }
+
+
+resp
+ .status(200)
+ .json({ success: true, msg:"Successfully updated" });
+}
+
+
+
+
+//@desc updateCheckoutStatus time
+//@route post /api/v1/workerstatus/checkout
+exports.updateCheckoutStatus= async(req , resp , next)=>{
+
+  var obj = JSON.parse(JSON.stringify(req.body));
+  console.log(obj.checkout,"---out-");
+
+  const checkout = await Status.updateOne(
+    { "workerId" : obj.workerId },
+    { $set: { "checkout" :obj.checkout } }
+ );
+  
+ if(!checkout){
      return resp
    .status(401)
    .json({ success: false, msg:"error"});
