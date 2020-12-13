@@ -1,5 +1,5 @@
 const express = require('express');
-const {getworkerStatus,updateWorkerHours,updateWorkerDay,updateWorkerDate} = require('../controllers/workerstatus');
+const {getworkerStatus,updateWorkerHours,updateWorkerDay,updateWorkerDate,updateCheckinStatus,updateCheckoutStatus} = require('../controllers/workerstatus');
 const router = express.Router();
 
 
@@ -16,5 +16,11 @@ router.route('/day')
 
 router.route('/date')
     .post(updateWorkerDate);
+
+router.route('/checkin')
+    .post(updateCheckinStatus);
+
+router.route('/checkout')
+    .post(updateCheckoutStatus);
 
 module.exports = router;
