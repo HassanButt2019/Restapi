@@ -23,6 +23,7 @@ const complains = require('./routes/complains');
 const residents = require('./routes/residents');
 const workers = require('./routes/workers');
 const workerstatus = require('./routes/workerstatus');
+const workerpayroll = require('./routes/workerpayroll');
 const app = express();
 //dev logging middleware
 if(process.env.NODE_ENV === 'development')
@@ -44,6 +45,7 @@ app.use('/api/v1/complains',complains);
 app.use('/api/v1/resident',residents);
 app.use('/api/v1/workers',workers);
 app.use('/api/v1/workerstatus',workerstatus);
+app.use('/api/v1/workerpayroll',workerpayroll);
 
 app.use(passport.initialize());
 app.use(function(req, res, next) {
