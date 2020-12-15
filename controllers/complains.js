@@ -15,16 +15,29 @@ exports.getComplain = async(req,response,next) => {
         response.status(400).json({ success: false  , msg:err});
     }
 }
+
+exports.getMyComplains = async(req,response,next)=>{
+try
+{
+const complain = await complains.find({ email: req.body.email});
+    response.status(201).json({ success: true, data: complain });
+}catch(err)
+{
+ response.status(400).json({ success: false, msg: "data not found" });
+}
+
+}
+
 //@desc create complain
 //@route post / api/vi/complains
 //@access private
 
 exports.createComplain = async (req,response , next)=>{
     try{
-        console.log(req.body);
+    console.log(req.body);
     const complain =await complains.create(req.body);
     console.log(req.body);
-    response.status(201).json({ success: true, data: req.body });
+    response.status(201).json({ success: true, data: complain });
     }catch(err){
         response.status(400).json({ success: false, msg: "data not found" });
     }

@@ -3,9 +3,11 @@ const mongoose = require('mongoose');
 const complainSchema = new mongoose.Schema({
     title:{
         type:String,
-        required:true,
-        unique:true
     },
+    email:{
+        type:String,
+     },
+
     name:{
         type:String,
     },
