@@ -1,5 +1,5 @@
 const express = require('express');
-const {getByBuilding , getBuildings, deleteBuilding, deleteBuildingByBlock, updateResidentDetail, deleteResident,createBuilding} = require('../controllers/residents');
+const {getByBuilding , getBuildings, deleteBuilding, deleteBuildingByBlock, updateResidentDetail, deleteResident,createBuilding,updateBuilding} = require('../controllers/residents');
 const router = express.Router();
 
 
@@ -7,7 +7,9 @@ router.route('/building')
       .post(getByBuilding)
       .delete(deleteBuildingByBlock);
 
-router.delete('/building/:id',deleteBuilding);
+router.route('/building/:id')
+      .delete(deleteBuilding)
+      .put(updateBuilding);
 
 router.route('/:id')
       .put(updateResidentDetail)
