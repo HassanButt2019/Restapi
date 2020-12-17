@@ -13,7 +13,7 @@ connectDb();
 
 
 //load env variables
-dotenv.config({path:'./config/config.env'})
+dotenv.config({path:'./config/config.env'});
 
 
 //routes files
@@ -22,6 +22,8 @@ const auth = require('./routes/auth');
 const complains = require('./routes/complains');
 const residents = require('./routes/residents');
 const workers = require('./routes/workers');
+const workerstatus = require('./routes/workerstatus');
+const workerpayroll = require('./routes/workerpayroll');
 const app = express();
 //dev logging middleware
 if(process.env.NODE_ENV === 'development')
@@ -42,8 +44,10 @@ app.use('/api/v1/auth',auth);
 app.use('/api/v1/complains',complains);
 app.use('/api/v1/resident',residents);
 app.use('/api/v1/workers',workers);
+app.use('/api/v1/workerstatus',workerstatus);
+app.use('/api/v1/workerpayroll',workerpayroll);
 
-app.use(passport.initialize())
+app.use(passport.initialize());
 app.use(function(req, res, next) {
     res.setHeader("Content-Type", "application/json");
     next();

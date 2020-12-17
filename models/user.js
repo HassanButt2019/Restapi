@@ -98,7 +98,7 @@ UserSchema.methods.getResetPasswordToken = function(){
 //match user password to hashpassword
 UserSchema.methods.matchPassword = async function(password){
     return await bcrypt.compare(password , this.password);
-}
+};
 //match user role 
 UserSchema.methods.CheckHead= async function(role){
     if(role === this.role)
@@ -108,7 +108,7 @@ UserSchema.methods.CheckHead= async function(role){
     {
         return await false;
     }
-}
+};
 
 
 
