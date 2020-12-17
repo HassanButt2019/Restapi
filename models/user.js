@@ -71,7 +71,7 @@ var user = this;
 
 // sign jwt and return
 UserSchema.methods.getSignedJwtToken = function() {
-    return jwt.sign({id:this._id},abc123efg4321,{
+    return jwt.sign({id:this._id},process.env.JWT_SECRET,{
         expiresIn:process.env.JWT_EXPIRE
     });
 };
