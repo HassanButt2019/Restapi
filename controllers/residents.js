@@ -147,11 +147,11 @@ exports.createBuilding = async (req,response , next)=>{
 };
 
 
-/*
+
 
 
 //@desc update building name
-//@route put /api/v1/building
+//@route put /api/v1/building/:id
 exports.updateBuilding = async( req, res, next) => {
   try {
    
@@ -169,4 +169,4 @@ exports.updateBuilding = async( req, res, next) => {
     res.status(400).json({success: false});
     
   }
-}*/
+}
