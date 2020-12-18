@@ -3,19 +3,20 @@ const express = require('express');
 const {getMoney , updateMoney,updateSpendMoney
 , getContributers,updateLoanMoney,updateEarnedMoney
 ,getLoanMoney,updateContributers , getEarnedMoney ,
-getSpentMoney,createContributers,createMoney
-
-
-} = require('../controllers/money_pool.js');
+getSpentMoney,createContributers,createMoney , updateMoneyPool } = require('../controllers/money_pool.js');
 
 const router = express.Router();
 
 
 const {protect} = require('../middlewares/auth');
 
+
+
 router.route('/')
 .get(getMoney)
-.post(protect,createMoney);
+.post(updateMoneyPool);
+
+
 
 router.route('/currentmoney')
 .put(/*protect,*/updateMoney);

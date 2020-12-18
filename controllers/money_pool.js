@@ -1,5 +1,30 @@
 const money_pool = require("../models/money_pool");
 
+
+exports.updateMoneyPool = async(req , response , next) =>{
+
+try{
+console.log(req.body.currentMoney);
+    const moneypool = await money_pool.updateMany(
+    {} ,
+    {$set:
+    {
+    "currentMoney":req.body.currentMoney,
+    "earnedMoney": req.body.earnedMoney,
+    "spendMoney": req.body.spendMoney,
+    }
+    }
+    );
+    response.status(201).json({ success: true, data: moneypool });
+}catch(err)
+{
+response.status(400).json({ success: false });
+}
+}
+
+
+
+
 //@desc get all money pool Data
 //@route GET /api/v1/money_pool
 //@access private
@@ -13,6 +38,7 @@ exports.getMoney = async (req, response, next) => {
     response.status(400).json({ success: false });
   }
 };
+
 //@desc create  money pool
 //@route POST /api/v1/money_pool
 //@access private
