@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
+require('mongoose-double')(mongoose);
+
+var SchemaTypes = mongoose.Schema.Types;
 
 const moneypoolScheme = new mongoose.Schema({
   currentMoney: {
-    type: Number,
+    type: SchemaTypes.Double,
     required:true
   },
   contributors: [
