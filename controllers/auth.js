@@ -174,7 +174,7 @@ const sendTokenResponse = (user, statusCode, response) => {
 //@access private
 exports.getMe = async (req, res, next) => {
   console.log(req);
-  const user = await User.findById(req.user.id);
+  const user = await User.findOne({ email: req.body.email});
 
   res.status(200).json({
     success: true,
