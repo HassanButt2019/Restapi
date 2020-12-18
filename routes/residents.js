@@ -4,12 +4,12 @@ const router = express.Router();
 
 
 router.route('/building')
-      .post(getByBuilding)
-      .delete(deleteBuildingByBlock);
+      .post(getByBuilding);
+router.route('/building/:id').delete(deleteBuildingByBlock);
 
-router.route('/building/:id')
-      .delete(deleteBuilding)
-      .put(updateBuilding);
+//router.route('/building/:id')
+//      .delete(deleteBuilding)
+//      .put(updateBuilding);
 
 router.route('/:id')
       .put(updateResidentDetail)

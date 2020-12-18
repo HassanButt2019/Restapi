@@ -5,16 +5,14 @@ const User = require('../models/user');
 //@route delete /api/v1/resident/building     requires body
 exports.deleteBuildingByBlock = async( req, res, next) => {
   try {
-    const {building} = req.body;
-    console.log(building);
-  
-    const user = await User.deleteMany({ "building" : building }) ;
-  
+    console.log(req.params.id);
+    const user = await User.deleteMany({ "building" : req.params.id }) ;
+
     if(!user){
       return res.status(400),json({success: false});
     }
 
-    res.status(200).json({success: true, data:{} });
+    res.status(200).json({success: true, data: req.params.id});
   } catch (err) {
     res.status(400).json({success: false});
     
