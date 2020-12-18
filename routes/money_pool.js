@@ -37,7 +37,7 @@ router.route('/spendmoney')
 
 router.route('/contributors')
 .get(getContributers)
-.post(protect,createContributers);
+.post(createContributers);
 
 
 router.route('/contributors').
