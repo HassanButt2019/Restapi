@@ -19,10 +19,10 @@ const moneypoolScheme = new mongoose.Schema({
     },
   ],
   earnedMoney: {
-    type: Number,
+    type: SchemaTypes.Double,
   },
   spendMoney: {
-    type: Number
+    type: SchemaTypes.Double,
   },
 });
 
