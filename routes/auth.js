@@ -2,7 +2,7 @@ const express = require('express');
 
 const {protect} = require('../middlewares/auth');
 
-const {register , login , getMe , forgetpassword , resetPassword , registerWorker } = require('../controllers/auth');
+const {register , login , getMe , forgetpassword , resetPassword , registerWorker , deleteUser } = require('../controllers/auth');
 
 const router = express.Router();
 
@@ -11,6 +11,9 @@ router.get('/hell',(req,res)=>{
 res.send("HELLO WORLLD");
 });
 
+
+
+router.delete('/deleteUser/:id',deleteUser)
 
 
 router.post('/register',register);

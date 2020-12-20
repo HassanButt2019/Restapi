@@ -47,7 +47,7 @@ app.use('/api/v1/workers',workers);
 app.use('/api/v1/workerstatus',workerstatus);
 app.use('/api/v1/workerpayroll',workerpayroll);
 
-app.use(passport.initialize());
+app.use(passport.initialize())
 app.use(function(req, res, next) {
     res.setHeader("Content-Type", "application/json");
     next();

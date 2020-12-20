@@ -1,14 +1,10 @@
 const express = require('express');
 
-const {getMoney , updateMoney,updateSpendMoney
-, getContributers,updateLoanMoney,updateEarnedMoney
-,getLoanMoney,updateContributers , getEarnedMoney ,
-getSpentMoney,createContributers,createMoney , updateMoneyPool } = require('../controllers/money_pool.js');
+const {getMoney,updateMoneyPool,updateContributers,getContributers ,createMoney } = require('../controllers/money_pool.js');
 
 const router = express.Router();
-
-
 const {protect} = require('../middlewares/auth');
+
 
 
 
@@ -16,33 +12,18 @@ router.route('/')
 .get(getMoney)
 .post(updateMoneyPool);
 
-
-
-router.route('/currentmoney')
-.put(/*protect,*/updateMoney);
+router.route('/createMoney').post(createMoney);
 
 
 
-router.route('/earnmoney')
-.get(getEarnedMoney);
-router.route('/earnmoney')
-.put(/*protect,*/updateEarnedMoney);
-
-
-router.route('/spendmoney')
-.get(getSpentMoney);
-router.route('/spendmoney')
-.put(/*protect,*/updateSpendMoney);
 
 
 
 router.route('/contributors')
-.get(getContributers)
-.post(createContributers);
+.get(getContributers);
 
 
-router.route('/contributors').
-put(protect,updateContributers);
+router.route('/contributors').post(updateContributers);
 
 
 

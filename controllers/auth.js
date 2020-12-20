@@ -100,16 +100,8 @@ exports.login = async (req, response, next) => {
   }
 
   var user;
-//check for head
-if(role === 'head')
-{ // Check for user
+
    user = await User.findOne({ email}).select('+password');
-}else
-{
-  return response
-      .status(401)
-      .json({ success: false, msg: "Authentication Failed , You Are Not Head" });
-}
 
   
   if (!user) {
@@ -169,6 +161,23 @@ const sendTokenResponse = (user, statusCode, response) => {
     .json({ success: true, token });
 };
 
+exports.deleteUser = async(req,response,next)=>{
+
+try{
+  const user = await User.deleteOne( {"_id": req.params.id});
+  console.log(req.params.id);
+  if(!user){
+      response.status(400).json({ success: false, msg: `Resident not found with id ${req.params.id}` });
+  }
+  return response.status(200).json({success: true, msg: "Resident deleted"});
+
+}catch(err)
+{
+    response.status(400).json({ success: false, msg: `Resident not found with id ${req.params.id}` });
+}
+//  user.remove();
+
+}
 //@desc get current login user
 //@route post /api/vi/auth/me
 //@access private

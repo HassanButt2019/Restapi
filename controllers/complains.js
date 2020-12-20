@@ -1,6 +1,18 @@
 const complains = require("../models/complains");
 
 
+exports.getMyComplains = async(req,response,next)=>{
+try
+{
+const complain = await complains.find({ email: req.body.email});
+    response.status(201).json({ success: true, data: complain });
+}catch(err)
+{
+ response.status(400).json({ success: false, msg: "data not found" });
+}
+
+}
+
 //@desc get all complains
 //@route get / api/vi/complains
 //@access provate

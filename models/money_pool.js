@@ -14,7 +14,7 @@ const moneypoolScheme = new mongoose.Schema({
         type: String,
       },
       contributedMoney: {
-        type: Number,
+        type: String,
       },
     },
   ],
